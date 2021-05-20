@@ -14,7 +14,7 @@ MathModel::MathModel()
 	_p = 0;
 	B = 0;
 }
-// исправить! разбито не по слоям
+
 void	MathModel::selectAtmosphereLayer(const double h)
 {
 	if (h > 0 && h < 11019)
@@ -78,7 +78,6 @@ Matrix	MathModel::func(double t, Matrix &curState)
 	V = sqrt(ft_pow2(curState[0][0]) + ft_pow2(curState[1][0]));
 	selectAtmosphereLayer(curState[3][0]);
 	calculateAtmosphereParametrs(V, curState[3][0]);
-	// retMatrix[0][0] = -Cx * Sm * density * ft_pow2(curState[0][0]) / (2 * m) - g * sin(lambda);
 	retMatrix[0][0] = -Cx * Sm * density * V * curState[0][0] / (2 * m);
 	retMatrix[1][0] = -Cx * Sm * density * V * curState[1][0] / (2 * m) - g;
 	retMatrix[2][0] = curState[0][0];
