@@ -1,5 +1,4 @@
 #include "RungeKutta.hpp"
-#include "mathFunc.hpp"
 #include <iostream>
 
 RungeKutta::RungeKutta()
@@ -86,11 +85,15 @@ void	RungeKutta::updateMatrix(const size_t newSize)
 
 Matrix	RungeKutta::integrate(AMathModel *model, const Matrix &initState)
 {
+	Matrix	tmp;
+	Matrix	ones;
+
 	calcStepsCount();
 	sysSolve = Matrix(stepsCount, model->equationCount);
 	t = Matrix(stepsCount, 1);
 	curState = initState;
 	copyStateValues(0, false);
+	ones = ones.ones(curState.get_rsize(), curState.get_csize());
 
 	t[0][0] = tStart;
 	for (size_t i = 1; i < stepsCount; i++)
@@ -99,16 +102,16 @@ Matrix	RungeKutta::integrate(AMathModel *model, const Matrix &initState)
 		for (size_t j = 0; j < model->equationCount; j++)
 		{
 			k[0] = model->func(t[i - 1][0], curState)[j][0] * dt;
-			curState = curState + curState.multiply(dt / 2 * k[0]);
-			k[1] = model->func(t[i - 1][0] + dt / 2, curState)[j][0] * dt;
-			curState = curState + curState.multiply(dt / 2 * k[1]);
-			k[2] = model->func(t[i - 1][0] + dt / 2, curState)[j][0] * dt;
-			curState = curState + curState.multiply(dt * k[2]);
-			k[3] = model->func(t[i - 1][0] + dt, curState)[j][0] * dt;
+			tmp = curState + ones.multiply(dt / 2 * k[0]);
+			k[1] = model->func(t[i - 1][0] + dt / 2, tmp)[j][0] * dt;
+			tmp = curState + ones.multiply(dt / 2 * k[1]);
+			k[2] = model->func(t[i - 1][0] + dt / 2, tmp)[j][0] * dt;
+			tmp = curState + ones.multiply(dt * k[2]);
+			k[3] = model->func(t[i - 1][0] + dt, tmp)[j][0] * dt;
 			sysSolve[i][j] = sysSolve[i - 1][j] + (k[0] + 2 * k[1] + 2 * k[2] + k[3]) / 6;
 		}
 		copyStateValues(i, true);
-		if (stopIntegrationFlag && isEqual(curState[equationIdx][0], stopValue, 0.2))
+		if (stopIntegrationFlag && curState[equationIdx][0] <= stopValue)
 		{
 			updateMatrix(i + 1);
 			break ;

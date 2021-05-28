@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <iostream>
 
-#define GRAPH
+// #define GRAPH
 
 int main()
 {

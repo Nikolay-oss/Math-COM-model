@@ -52,6 +52,17 @@ void	Matrix::create_matrix(const size_t rows, const size_t cols)
 		matrix[i] = new double[cols] {0.0};
 }
 
+Matrix	Matrix::ones(const size_t rows, const size_t cols)
+{
+	create_matrix(rows, cols);
+	for (size_t i = 0; i < rows; i++)
+	{
+		for (size_t j = 0; j < cols; j++)
+			matrix[i][j] = 1;
+	}
+	return (*this);
+}
+
 void	Matrix::display()
 {
 	for (size_t i = 0; i < rows; i++)

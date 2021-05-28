@@ -20,6 +20,7 @@ public:
 	Matrix	multiply(const double scalar);
 	Matrix	transpose();
 	Matrix	inverse();
+	Matrix	ones(const size_t rows, const size_t cols);
 	double	determinant();
 	void	display();
 
