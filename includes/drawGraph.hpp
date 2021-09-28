@@ -1,7 +1,8 @@
 #ifndef DRAW_GRAPH_HPP
 #define DRAW_GRAPH_HPP
+
 #include "sciplot.hpp"
-#include "matrix.hpp"
+#include "Matrix.hpp"
 
 typedef std::vector<double> t_vec;
 

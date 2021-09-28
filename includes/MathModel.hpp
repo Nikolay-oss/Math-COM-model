@@ -1,6 +1,7 @@
 #ifndef MATH_MODEL_HPP
 #define MATH_MODEL_HPP
-#include "matrix.hpp"
+
+#include "Matrix.hpp"
 #include "linearInterpolation.hpp"
 #include <cstddef>
 

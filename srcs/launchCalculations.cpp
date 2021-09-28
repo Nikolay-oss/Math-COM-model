@@ -6,10 +6,10 @@
 
 static void	initState(Matrix &state, double h, double lambda, double v)
 {
-	state[0][0] = v * cos(deg2rad(lambda));
-	state[1][0] = v * sin(deg2rad(lambda));
-	state[2][0] = 0;
-	state[3][0] = h;
+	state(0, 0) = v * cos(deg2rad(lambda));
+	state(1, 0) = v * sin(deg2rad(lambda));
+	state(2, 0) = 0;
+	state(3, 0) = h;
 }
 
 static double	calcRel(double xStart, double xEnd)
