@@ -24,7 +24,7 @@ void	launchCalculations(Matrix &sysSolve, Matrix &t, double h, double lambda, do
 	Matrix		state(4, 1);
 
 	initState(state, h, lambda, v);
-	rk.setDelta(0.05);
+	rk.setDelta(0.01);
 	rk.setLimits(0, 200);
 	rk.setStopIntegrationOption(0, 3);
 	sysSolve = rk.integrate(&model, state);
