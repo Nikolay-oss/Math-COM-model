@@ -8,7 +8,7 @@ static bool	showErrorMessage(std::string message)
 
 bool	readInitValues(double &h, double &lambda, double &v)
 {
-	std::cout << "H -> ";
+	std::cout << "H [m] -> ";
 	if (!readValue(h))
 		return (showErrorMessage("Invalid H parametr"));
 	if (h < 0)
@@ -16,7 +16,7 @@ bool	readInitValues(double &h, double &lambda, double &v)
 	std::cout << "lambda (deg) -> ";
 	if (!readValue(lambda))
 		return (showErrorMessage("Invalid lambda parametr"));
-	std::cout << "v -> ";
+	std::cout << "v [m/sec] -> ";
 	if (!readValue(v))
 		return (showErrorMessage("Invalid v parametr"));
 	return (true);

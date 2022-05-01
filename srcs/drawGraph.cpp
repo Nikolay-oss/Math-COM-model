@@ -27,7 +27,7 @@ void	copyXYToVector(Matrix &m, t_vec &x, t_vec &y)
 {
 	for (size_t i = 0; i < m.get_rsize(); i++)
 	{
-		x.push_back(m[i][2]);
-		y.push_back(m[i][3]);
+		x.push_back(m(i, 2));
+		y.push_back(m(i, 3));
 	}
 }

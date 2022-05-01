@@ -51,9 +51,9 @@ void	RungeKutta::copyStateValues(const size_t rowIdx, bool isCopyToState)
 	for (size_t i = 0; i < sysSolve.get_csize(); i++)
 	{
 		if (isCopyToState)
-			curState[i][0] = sysSolve[rowIdx][i];
+			curState(i, 0) = sysSolve(rowIdx, i);
 		else
-			sysSolve[rowIdx][i] = curState[i][0];
+			sysSolve(rowIdx, i) = curState(i, 0);
 	}
 }
 
@@ -73,17 +73,17 @@ void	RungeKutta::updateMatrix(const size_t newSize)
 	newT.create_matrix(newSize, t.get_csize());
 	for (size_t i = 0; i < newSize; i++)
 	{
-		newT[i][0] = t[i][0];
+		newT(i, 0) = t(i, 0);
 		for (size_t j = 0; j < sysSolve.get_csize(); j++)
 		{
-			newSysSolve[i][j] = sysSolve[i][j];
+			newSysSolve(i, j) = sysSolve(i, j);
 		}
 	}
 	sysSolve = newSysSolve;
 	t = newT;
 }
 
-Matrix	RungeKutta::integrate(AMathModel *model, const Matrix &initState)
+Matrix&	RungeKutta::integrate(AMathModel* model, const Matrix& initState)
 {
 	Matrix	tmp;
 	Matrix	ones;
@@ -95,23 +95,23 @@ Matrix	RungeKutta::integrate(AMathModel *model, const Matrix &initState)
 	copyStateValues(0, false);
 	ones = ones.ones(curState.get_rsize(), curState.get_csize());
 
-	t[0][0] = tStart;
+	t(0, 0) = tStart;
 	for (size_t i = 1; i < stepsCount; i++)
 	{
-		t[i][0] = t[i - 1][0] + dt;
+		t(i, 0) = t(i - 1, 0) + dt;
 		for (size_t j = 0; j < model->equationCount; j++)
 		{
-			k[0] = model->func(t[i - 1][0], curState)[j][0] * dt;
-			tmp = curState + ones.multiply(dt / 2 * k[0]);
-			k[1] = model->func(t[i - 1][0] + dt / 2, tmp)[j][0] * dt;
-			tmp = curState + ones.multiply(dt / 2 * k[1]);
-			k[2] = model->func(t[i - 1][0] + dt / 2, tmp)[j][0] * dt;
-			tmp = curState + ones.multiply(dt * k[2]);
-			k[3] = model->func(t[i - 1][0] + dt, tmp)[j][0] * dt;
-			sysSolve[i][j] = sysSolve[i - 1][j] + (k[0] + 2 * k[1] + 2 * k[2] + k[3]) / 6;
+			k[0] = model->func(t(i - 1, 0), curState)(j, 0) * dt;
+			tmp = curState + ones * (dt / 2 * k[0]);
+			k[1] = model->func(t(i - 1, 0) + dt / 2, tmp)(j, 0) * dt;
+			tmp = curState + ones * (dt / 2 * k[1]);
+			k[2] = model->func(t(i - 1, 0) + dt / 2, tmp)(j, 0) * dt;
+			tmp = curState + ones * (dt * k[2]);
+			k[3] = model->func(t(i - 1, 0) + dt, tmp)(j, 0) * dt;
+			sysSolve(i, j) = sysSolve(i - 1, j) + (k[0] + 2 * k[1] + 2 * k[2] + k[3]) / 6;
 		}
 		copyStateValues(i, true);
-		if (stopIntegrationFlag && curState[equationIdx][0] <= stopValue)
+		if (stopIntegrationFlag && curState(equationIdx, 0) <= stopValue)
 		{
 			updateMatrix(i + 1);
 			break ;

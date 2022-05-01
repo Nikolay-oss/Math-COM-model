@@ -75,12 +75,12 @@ Matrix	MathModel::func(double t, Matrix &curState)
 {
 	double	V;
 
-	V = sqrt(ft_pow2(curState[0][0]) + ft_pow2(curState[1][0]));
-	selectAtmosphereLayer(curState[3][0]);
-	calculateAtmosphereParametrs(V, curState[3][0]);
-	retMatrix[0][0] = -Cx * Sm * density * V * curState[0][0] / (2 * m);
-	retMatrix[1][0] = -Cx * Sm * density * V * curState[1][0] / (2 * m) - g;
-	retMatrix[2][0] = curState[0][0];
-	retMatrix[3][0] = curState[1][0];
+	V = sqrt(ft_pow2(curState(0, 0)) + ft_pow2(curState(1, 0)));
+	selectAtmosphereLayer(curState(3, 0));
+	calculateAtmosphereParametrs(V, curState(3, 0));
+	retMatrix(0, 0) = -Cx * Sm * density * V * curState(0, 0) / (2 * m);
+	retMatrix(1, 0) = -Cx * Sm * density * V * curState(1, 0) / (2 * m) - g;
+	retMatrix(2, 0) = curState(0, 0);
+	retMatrix(3, 0) = curState(1, 0);
 	return (retMatrix);
 }

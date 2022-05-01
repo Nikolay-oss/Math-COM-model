@@ -3,15 +3,12 @@ project(coursework)
 
 set(CMAKE_CXX_STANDARD 17)
 
-find_package(./sciplot)
-
 include_directories(./includes ./matrix_lib ./srcs ./sciplot/sciplot ./sciplot)
 
 add_executable(coursework
         includes/mathFunc.hpp
         includes/MathModel.hpp
         includes/RungeKutta.hpp
-        includes/matrix.hpp
 		includes/linearInterpolation.hpp
 		includes/launchCalculations.hpp
 		includes/parser.hpp
@@ -19,7 +16,8 @@ add_executable(coursework
 
         sciplot/sciplot/sciplot.hpp
 
-		matrix_lib/matrix.cpp
+		matrix_lib/Matrix.hpp
+		matrix_lib/Matrix.cpp
 
         srcs/integrator/MathModel.cpp
         srcs/integrator/RungeKutta.cpp
